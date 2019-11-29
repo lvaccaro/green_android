@@ -14,6 +14,7 @@ matrix:
       install:
         - mkdir -p $HOME/opt
         - cd $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} &> /dev/null
+        - brew update
         - brew install swig gnu-sed pkg-config uncrustify
         - yes | $HOME/opt/tools/bin/sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
       script:
