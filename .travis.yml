@@ -6,14 +6,14 @@ matrix:
         - docker
       script: docker run -v $PWD:/ga greenaddress/android@sha256:83dfc4f5c23f2d8026ad2090b909c9a9ae840ff63a3efceb30eff3fc1cebc8fc /bin/sh -c "cd /ga && tools/uncrustify && git diff && git diff --quiet && ./gradlew --project-dir=bitcoinj/tools build && ./gradlew lintProductionRelease && ./gradlew assembleProductionRelease"
     - os: osx
-      osx_image: xcode11
+      osx_image: xcode8.3
       install:
-        - brew tap adoptopenjdk/openjdk
-        - brew cask install adoptopenjdk8
         - brew cask install android-sdk
         - brew install uncrustify
         - yes | sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
       script:
+        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - echo $JAVA_HOME
         - cd $HOME/build/blockstream/green_android && ./tools/uncrustify && git diff && git diff --quiet
         - cd $HOME/build/blockstream/green_android && ./gradlew lintProductionRelease
         - cd $HOME/build/blockstream/green_android && ./gradlew assembleProductionRelease
