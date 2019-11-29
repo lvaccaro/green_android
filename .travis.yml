@@ -18,5 +18,6 @@ matrix:
         - yes | $HOME/opt/tools/bin/sdkmanager "platforms;android-29" &> /dev/null
       script:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - ls -l
         - ./gradlew lintProductionRelease
         - ./gradlew assembleProductionRelease
