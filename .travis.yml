@@ -11,6 +11,7 @@ matrix:
         - ANDROID_HOME=/Users/travis/opt
         - SDK_FILENAME=sdk-tools-darwin-4333796.zip
       install:
+        - echo $PWD
         - mkdir -p $HOME/opt
         - cd $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} &> /dev/null
         - yes | $HOME/opt/tools/bin/sdkmanager "tools" "platform-tools" &> /dev/null
@@ -18,6 +19,6 @@ matrix:
         - yes | $HOME/opt/tools/bin/sdkmanager "platforms;android-29" &> /dev/null
       script:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        - ls -l
+        - cd $HOME
         - ./gradlew lintProductionRelease
         - ./gradlew assembleProductionRelease
