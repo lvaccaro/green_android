@@ -10,15 +10,12 @@ matrix:
       env:
         - ANDROID_HOME=/Users/travis/opt
         - SDK_FILENAME=sdk-tools-darwin-4333796.zip
+        - JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
       install:
         - mkdir -p $HOME/opt
         - cd $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} &> /dev/null
         - brew install swig gnu-sed pkg-config uncrustify
-        - yes | $HOME/opt/tools/bin/sdkmanager "tools"
-        - yes | $HOME/opt/tools/bin/sdkmanager "platform-tools"
-        - yes | $HOME/opt/tools/bin/sdkmanager "build-tools;29.0.2"
-        - yes | $HOME/opt/tools/bin/sdkmanager "platforms;android-29"
-        - yes | $HOME/opt/tools/bin/sdkmanager "extras;google;m2repository"
+        - yes | $HOME/opt/tools/bin/sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
       script:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - cd $HOME/build/blockstream/green_android && ./tools/uncrustify && git diff && git diff --quiet
