@@ -11,13 +11,14 @@ matrix:
         - ANDROID_HOME=/Users/travis/opt
         - SDK_FILENAME=sdk-tools-darwin-4333796.zip
       install:
-        - mkdir -p $HOME/opt
-        - cd $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} &> /dev/null
-        - brew update
-        - brew install openjdk swig gnu-sed pkg-config uncrustify
-        - yes | $HOME/opt/tools/bin/sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
+        - brew cask uninstall java
+        - brew tap adoptopenjdk/openjdk
+        - brew cask install adoptopenjdk8
+        - touch ~/.android/repositories.cfg
+        - brew cask install android-sdk
+        - brew install uncrustify
+        - yes | sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
       script:
-        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - cd $HOME/build/blockstream/green_android && ./tools/uncrustify && git diff && git diff --quiet
         - cd $HOME/build/blockstream/green_android && ./gradlew lintProductionRelease
         - cd $HOME/build/blockstream/green_android && ./gradlew assembleProductionRelease
