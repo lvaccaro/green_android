@@ -11,6 +11,7 @@ matrix:
       env:
         - ANDROID_HOME=/Users/travis/opt
         - SDK_FILENAME=sdk-tools-darwin-4333796.zip
+        - HOMEBREW_NO_AUTO_UPDATE=1
       install:
         - mkdir -p $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} -d $HOME/opt &> /dev/null
         - brew install uncrustify gnu-sed &> /dev/null
@@ -26,7 +27,6 @@ matrix:
     - os: linux
       dist: trusty
       language: android
-      jdk: oraclejdk8
       android:
         components:
           - tools
