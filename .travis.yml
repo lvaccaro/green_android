@@ -5,6 +5,7 @@ matrix:
     - services:
         - docker
       script: docker run -v $PWD:/ga greenaddress/android@sha256:83dfc4f5c23f2d8026ad2090b909c9a9ae840ff63a3efceb30eff3fc1cebc8fc /bin/sh -c "cd /ga && tools/uncrustify && git diff && git diff --quiet && ./gradlew --project-dir=bitcoinj/tools build && ./gradlew lintProductionRelease && ./gradlew assembleProductionRelease"
+
     - os: osx
       osx_image: xcode8.3
       env:
@@ -21,3 +22,30 @@ matrix:
         - ./tools/uncrustify && git diff && git diff &> /dev/null
         - ./gradlew lintProductionRelease &> /dev/null
         - ./gradlew assembleProductionRelease
+
+    - os: linux
+      dist: trusty
+      language: android
+      jdk: oraclejdk8
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-29.0.2
+          - android-29
+          - add-on
+          - extra
+          - extra-google-m2repository
+          - extra-android-m2repository
+        licenses:
+          - 'android-sdk-preview-license-+'
+          - 'android-sdk-license-.+'
+          - 'google-gdk-license-.+'
+        before_install:
+          - mkdir "$ANDROID_HOME/licenses" || true
+          - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+          - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+          - chmod +x gradlew
+          - ./gradlew dependencies || true
+        script:
+          - ./gradlew clean build
