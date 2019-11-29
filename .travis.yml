@@ -13,7 +13,7 @@ matrix:
       install:
         - mkdir -p $HOME/opt
         - cd $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} &> /dev/null
-        - yes | sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
+        - yes | $HOME/opt/tools/bin/sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
       script:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - echo $JAVA_HOME
