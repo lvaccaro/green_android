@@ -18,6 +18,5 @@ matrix:
         - yes | $HOME/opt/tools/bin/sdkmanager "platforms;android-29" &> /dev/null
       script:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        - echo $JAVA_HOME
-        - cd $HOME/build/blockstream/green_android && ./gradlew lintProductionRelease
-        - cd $HOME/build/blockstream/green_android && ./gradlew assembleProductionRelease
+        - ./gradlew lintProductionRelease
+        - ./gradlew assembleProductionRelease
