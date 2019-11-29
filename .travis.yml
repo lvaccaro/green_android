@@ -7,9 +7,12 @@ matrix:
       script: docker run -v $PWD:/ga greenaddress/android@sha256:83dfc4f5c23f2d8026ad2090b909c9a9ae840ff63a3efceb30eff3fc1cebc8fc /bin/sh -c "cd /ga && tools/uncrustify && git diff && git diff --quiet && ./gradlew --project-dir=bitcoinj/tools build && ./gradlew lintProductionRelease && ./gradlew assembleProductionRelease"
     - os: osx
       osx_image: xcode8.3
+      env:
+        - ANDROID_HOME=/Users/travis/opt
+        - SDK_FILENAME=sdk-tools-darwin-4333796.zip
       install:
-        - mkdir $HOME/.android && touch $HOME/.android/repositories.cfg
-        - brew cask install android-sdk
+        - mkdir -p $HOME/opt
+        - cd $HOME/opt && curl -sSO https://dl.google.com/android/repository/${SDK_FILENAME} && unzip -qq ${SDK_FILENAME} &> /dev/null
         - brew install uncrustify
         - yes | sdkmanager "tools" "platform-tools" "build-tools;29.0.2" "platforms;android-29" "extras;android;m2repository" "extras;google;m2repository"
       script:
